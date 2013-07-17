@@ -364,23 +364,44 @@ class UserAction extends Action {
 	public function costlogs(){
 		
 		$Model = new Model();
+		import("ORG.Util.Page");
 		$mid = intval($_GET['mid']);
 			if($mid){
-				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.id=$mid order by time DESC");
+				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid and m.id=$mid ");
+				$count = $count[0]['num'];
+    			$Page = new Page($count,25);
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$show = $Page->show();
+				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.id=$mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}else{
-				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid order by time DESC");
+				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid ");
+				$count = $count[0]['num'];
+    			$Page = new Page($count,25);
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$show = $Page->show();
+				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}
 		if($_POST){
 			$card = stripslashes(urldecode(trim($_POST['card'])));
 			$tel = stripslashes(urldecode(trim($_POST['tel'])));
 			if($card){
-				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.card='$card' order by time DESC");
+				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid and m.card='$card'");
+				$count = $count[0]['num'];
+    			$Page = new Page($count,25);
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$show = $Page->show();
+				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.card='$card' order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}
 			if($tel){
-				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.tel='$tel' order by time DESC");
+				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid and m.tel='$tel'");
+				$count = $count[0]['num'];
+    			$Page = new Page($count,25);
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$show = $Page->show();
+				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.tel='$tel' order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}
 		}
-		
+		$this->page = $show;
 		$this->list = $list;
 		import('head','Tpl','.html');
      	$this->display();
@@ -394,7 +415,7 @@ class UserAction extends Action {
 		
 		if($mid){
 			$count = $Model->query("select count(*) num from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id=$mid ");
-			$count = $count['num'];
+			$count = $count[0]['num'];
     		$Page = new Page($count,25);
     		$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
     		$show = $Page->show();
@@ -402,6 +423,16 @@ class UserAction extends Action {
 		}
 		$this->list = $list;
 		$this->page = $show;
+		import('head','Tpl','.html');
+     	$this->display();
+     	import('foot','Tpl','.html');
+	}
+	public function actedit(){
+		import('head','Tpl','.html');
+     	$this->display();
+     	import('foot','Tpl','.html');
+	}
+	public function ggk(){
 		import('head','Tpl','.html');
      	$this->display();
      	import('foot','Tpl','.html');

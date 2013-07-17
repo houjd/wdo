@@ -1,0 +1,52 @@
+<script type="text/javascript">
+function del(uid){
+	if(confirm('确定要删除'))
+		{
+		location.href='__URL__/userlist/id/'+uid;
+		}
+}
+</script>
+<div class="top">
+	<div class="top_left"></div>
+	<div class="title_text">
+		<span>刮刮卡活动</span>
+	</div>
+	<div class="top_right"></div>
+</div>
+<div class="wrap">
+<a href='__URL__/actedit/t/1'>添加刮刮卡活动</a>
+	<div class="main list_box">
+
+				<table>
+			<tr>
+				<th>卡号</th>
+				<th>微信OPENID</th>
+				<th>姓名</th>
+				<th>电话</th>
+				<th>消费总额</th>
+				<th>积分</th>
+				<th>开卡日期</th>
+				<th>操作</th>	
+			</tr>
+			<?php $i = 0; ?>
+			<volist name="list" id="vo">			
+			<?php if( $i % 2 ): ?>
+			<tr class="list_gutter">
+			<?php else: ?>
+			<tr>
+			<?php endif; ?>				
+				<td>{$vo.card}</td>
+				<td>{$vo.wxid}</td>
+				<td>{$vo.name}</td>
+				<td>{$vo.tel}</td>
+				<td>{$vo.total}</td>
+				<td>{$vo.score}</td>
+				<td><php>echo date('Y-d-m H:i:s',$vo[time]);</php></td>
+				<td><a href='__URL__/costlogs/mid/{$vo.id}'>查看消费记录</a>/<a href='__URL__/jflogs/mid/{$vo.id}'>查看积分记录</a></td>
+			</tr>
+			</volist>
+			
+		</table>
+		<div class="pagelink">{$page}</div>
+	</div>
+</div>
