@@ -1,0 +1,23 @@
+* {margin:0; padding:0;}
+body {background-color:#EEF2FB; margin:0; padding:0; font-size:12px; font-family:"宋体",Verdana;}
+ul, ol, li, dl, dt, dd, p, form {margin:0; padding:0;}
+img {border:0 none;}
+
+.top, .index {clear:both;}
+.top {height:64px; background:url(../images/top-bg.gif) repeat-x;}
+.index {width:100%;}
+.left {width:200px;}
+.left, .main {vertical-align:top;}
+
+.logo {width:400px; float:left;}
+.role {float:right; margin-right:16px; color:#FFF;}
+.role td {height:40px; vertical-align:middle;}
+.role span {font-weight:bold; font-family:Arial;}
+
+.nav {width:182px;}
+.nav p {cursor:pointer; height:30px;}
+.nav p a {display:block; height:30px; line-height:30px; font-weight:bold; color:#00376F; text-align:center; text-decoration:none; background:url(../images/nav_p_a.gif) no-repeat;}
+.nav div {height:0px; overflow:hidden;}
+.nav div pad {height:5px; background:url(../images/nav_div_pad.gif) no-repeat scroll center top; display:block;}
+.nav div a {display:block; height:26px; line-height:26px; text-align:center; text-decoration:none; color:#008080; background:url(../images/nav_item_bg.gif) no-repeat;}
+.nav div a:hover, .nav div a.current {color:#00974B; font-weight:bold; background:url(../images/nav_current.gif) no-repeat;}

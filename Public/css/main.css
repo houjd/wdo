@@ -1,0 +1,44 @@
+* {margin:0; padding:0;}
+body {background-color:#EEF2FB; margin:0; padding:0; font-size:12px; font-family:"宋体",Verdana; line-height:150%;}
+ul, ol, li, dl, dt, dd, p, form {margin:0; padding:0;}
+img {border:0 none;}
+
+.top, .wrap, .foot {clear:both;}
+.top {height:31px; background:url(../images/main-top-center.gif) repeat-x;}
+.top_left {width:17px; height:31px; float:left; background:url(../images/main-top-left.gif);}
+.top_right {width:16px; height:31px; float:right; background:url(../images/main-top-right.gif);}
+.title_text {float:left;}
+.title_text span {line-height:29px; font-weight:bold; color:#00376F;}
+
+.wrap {background:url(../images/main-center-left.gif) repeat-y scroll left top;}
+.main {background:url(../images/main-center-right.gif) repeat-y scroll right top; padding:10px 22px; min-height:500px; _height:500px;}
+
+.foot {height:17px; background:url(../images/main-bottom-center.gif) repeat-x;}
+.foot_left {width:17px; height:17px; float:left; background:url(../images/main-bottom-left.gif);}
+.foot_right {width:16px; height:17px; float:right; background:url(../images/main-bottom-right.gif);}
+
+.main th, .main td {padding: 3px 0;}
+.main th {width:120px; text-align:right; padding-right:3px;}
+.main input {padding:2px 3px;}
+
+.list_box table {clear:both;}
+.list_box th {background-color:#00366C; color:#fff; text-weight:bold; text-align:center; padding:2px 3px; width:auto !important;}
+.list_box td {padding:2px 3px;}
+.list_box td a {color:#5080C0;}
+.list_box td a:hover {color:#FA3D05 !important;}
+.list_box .list_gutter td {background-color:#CAF0F7 !important;}
+.list_box .list_sub_title td {background-color:#0FBFD2 !important;}
+.list_box .pointer {cursor:pointer;}
+
+.pagelink {padding:6px 3px; clear:both;}
+.pagelink a {color:#0080C0;}
+.pagelink a:hover {color:#FA3D05 !important;}
+.pagelink b {color:#003F7D;}
+
+.error {padding:6px 8px; font-weight:bold; color:#FA3D05;}
+
+.no_kb {position:absolute; display:none; width:308px; background-color:#fff;}
+.no_key {background-color:#1b94c7; cursor:pointer; float:left; width:20px; height:20px; line-height:20px; text-align:center; font-size:12px; color:#fff; font-weight:bold; margin:1px 1px;}
+.no_key_nothing {background-color:transparent;}
+.no_key_top {width:307px; background-color:#1b94c7; text-align:center; font-size:12px; color:#fff;}
+.no_key_top span{float:right; cursor:pointer; font-size:12px; color:#fff;}

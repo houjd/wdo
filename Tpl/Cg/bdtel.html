@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>我的会员卡</title>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/wx.css">
+	</head>
+
+	<body>
+		<div id="pageList">
+			<div class="page">
+			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='#'>个人中心</a><br>
+			<center><h2 class="title">绑定手机</h2></center><br>
+			<php>if(!$info['name']){</php>
+			<form action="__URL__/bdtel/uid/{$uid}" method="post" name="form1" id="form1">
+		<table>
+			<tr>
+				<td>姓名: <input type="text" name="name" />  </td>				
+			</tr>
+			<tr>
+				<td>手机号: <input type="text" name="tel" />  </td>				
+			</tr>			
+			<tr>
+				<td><input type="submit" value="绑  定" /></td>
+			</tr>
+			
+		</table>
+			<php>}else{</php>
+			您已经绑定。
+			<php>}</php>
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,24 @@
+body {
+	background:#fff; color:#000; font:14px/20px microsoft yahei;
+}
+dt{
+	margin:10px 0;
+}
+#pageList{
+	padding: 0 15px;
+	overflow: hidden;
+	word-wrap: break-word;
+
+}
+#pageList img{
+	text-align: center;
+	width: 100%;
+	height: auto;
+	border: 0;
+}
+#pageList .title{
+	margin: 0;
+	padding: 0 0 3px 0;
+	font-weight: bold;
+	font-size: 19px;
+}

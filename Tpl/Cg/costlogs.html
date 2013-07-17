@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>我的消费记录</title>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/wx.css">
+	</head>
+
+	<body>
+		<div id="pageList">
+			<div class="page">
+			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='#'>个人中心</a><br>
+			<center><h2 class="title">我的消费记录</h2></center><br>
+			<php>if($list){</php>
+			<table>
+			<tr>
+				<th>日期</th>
+				<th>消费金额</th>
+			</tr>
+			<?php $i = 0; ?>
+			<volist name="list" id="vo">			
+			<?php if( $i % 2 ): ?>
+			<tr class="list_gutter">
+			<?php else: ?>
+			<tr>
+			<?php endif; ?>				
+				<td><php>echo date('Y-d-m H:i:s',$vo[time]);</php></td>
+				<td>{$vo.money}</td>
+			</tr>
+			</volist>
+			
+		</table>
+		<div class="pagelink">{$page}</div>
+		<php>}else{</php>
+		暂无记录
+		<php>}</php>
+			</div>
+		</div>
+	</body>
+
+</html>

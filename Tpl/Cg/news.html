@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>news</title>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/wx.css">
+	</head>
+
+	<body>
+		<div id="pageList">
+			<div class="page">
+			<h2>{$info[0]['title']}</h2>
+			<p>日期：<php> echo date('Y-m-d',$info[0]['time']);</php></p>
+			<a href="__ROOT__/{$info[0]['pic']}"><img src="__ROOT__/{$info[0]['pic']}"></a>
+			<p>
+			{$info[0]['content']}
+			</p>
+			</div>
+		</div>
+	</body>
+
+</html>

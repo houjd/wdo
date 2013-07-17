@@ -1,0 +1,42 @@
+<script type="text/javascript">
+function del(uid){
+	if(confirm('确定要删除'))
+		{
+		location.href='__URL__/news/t/{$t}/act/del/id/'+uid;
+		}
+}
+</script>
+<div class="top">
+	<div class="top_left"></div>
+	<div class="title_text">
+		<span>信息列表</span>
+	</div>
+	<div class="top_right"></div>
+</div>
+<div class="wrap">
+<div class="title_text"><span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="__URL__/editnew?t={$t}">添加</a></span></div>
+	<div class="main list_box">
+
+				<table>
+			<tr>
+				<th>置顶</th>
+				<th>标题</th>
+				<th>操作</th>	
+			</tr>
+			<?php $i = 0; ?>
+			<volist name="list" id="vo">			
+			<?php if( $i % 2 ): ?>
+			<tr class="list_gutter">
+			<?php else: ?>
+			<tr>
+			<?php endif; ?>
+				<td><a target="main" href="__URL__/news?t={$t}&act=top&id={$vo.id}">置顶</a></td>				
+				<td>{$vo.title}</td>
+				<td><a target="main" href="__URL__/editnew?t={$t}&id={$vo.id}">修改</a>/<a target="main" href="#" onclick="del({$vo.id})">删除</a></td>
+			</tr>
+			</volist>
+			
+		</table>
+		<div class="pagelink">{$page}</div>
+	</div>
+</div>

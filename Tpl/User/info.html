@@ -1,0 +1,27 @@
+<div class="top">
+	<div class="top_left"></div>
+	<div class="title_text">
+		<span>基本信息</span>
+	</div>
+	<div class="top_right"></div>
+</div>
+<div class="wrap">
+	<div class="main list_box">
+		<form action="__URL__/info" method="post" name="form1" id="form1">
+		<table>
+			<tr>
+				<td>名称: <input type="text" name="cname" value="{$info[cname]}" />  </td>				
+			</tr>
+			<tr>
+				<td>token: <input type="text" name="token" value="{$info[token]}"/>  </td>				
+			</tr>
+			<tr>
+				<td>积分倍数: <input type="text" name="jf" value="{$info[jf_num]}"/>（消费1RMB=?积分,请填入整数）  </td>				
+			</tr>			
+			<tr>
+				<td><input type="submit" value="确  认" /></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
