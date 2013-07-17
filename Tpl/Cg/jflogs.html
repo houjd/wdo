@@ -25,7 +25,7 @@
 			<tr>
 			<?php endif; ?>				
 				<td><php>echo date('Y-d-m H:i:s',$vo[time]);</php></td>
-				<td><php>if($vo['num']<0){echo $vo['num'];}else{echo '+'.$vo['num'];}</php></td>
+				<td><php>echo $types[$vo['type']];if($vo['num']<0){echo $vo['num'];}else{echo '+'.$vo['num'];}</php></td>
 			</tr>
 			</volist>
 			

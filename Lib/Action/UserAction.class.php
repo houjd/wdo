@@ -347,6 +347,7 @@ class UserAction extends Action {
 				$data=array();
 				$data['mid'] = $info['id'];
 				$data['num'] = $c_jf;
+				$data['type'] = 1;
 				$data['time'] = time();
 				$M_jf_logs->add($data);
 				
@@ -419,8 +420,12 @@ class UserAction extends Action {
     		$Page = new Page($count,25);
     		$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
     		$show = $Page->show();
-			$list = $Model->query("select m.card card, m.name name ,m.tel tel ,j.id id ,j.num num,j.time time from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id=$mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");	
+			$list = $Model->query("select m.card card, m.name name ,m.tel tel ,j.id id ,j.num num,j.time time,j.type type from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id=$mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");	
 		}
+		
+		$types = array(-1 => '兑换',1 => '消费');
+		
+		$this->types = $types;
 		$this->list = $list;
 		$this->page = $show;
 		import('head','Tpl','.html');

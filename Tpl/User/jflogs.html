@@ -33,7 +33,7 @@ function del(uid){
 				<td>{$vo.card}</td>
 				<td>{$vo.name}</td>
 				<td>{$vo.tel}</td>
-				<td><php>if($vo['num']<0){echo $vo['num'];}else{echo '+'.$vo['num'];}</php></td>
+				<td><php>echo $types[$vo['type']];if($vo['num']<0){echo $vo['num'];}else{echo '+'.$vo['num'];}</php></td>
 				<td><php>echo date('Y-d-m H:i:s',$vo[time]);</php></td>
 			</tr>
 			</volist>

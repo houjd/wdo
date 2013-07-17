@@ -6,8 +6,10 @@ class CgAction extends Action {
 		$userinfo = $User->where("id=2")->select();
 		$userinfo = $userinfo[0];
 		define("TOKEN", $userinfo['token']);
+
 		$weixin = new Weixin(TOKEN);	
 		$weixin->valid();
+
 		$weixin->getMsg();
 
 		$type = $weixin->msgtype;
@@ -117,9 +119,11 @@ class CgAction extends Action {
         $info = $Member->where("wxid='$uid'")->find();
         $Model = new Model();
    	 	if($info){
-			$list = $Model->query("select j.num num,j.time time from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id={$info['id']} order by time DESC");	
+			$list = $Model->query("select j.num num,j.time time,j.type type from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id={$info['id']} order by time DESC");	
 		}
+		$types = array(-1 => '兑换',1 => '消费');
 		
+		$this->types = $types;
 		$this->list = $list;
     	$this->display();
         
@@ -132,7 +136,7 @@ class CgAction extends Action {
    	 	if($info){
 			$list = $Model->query("select c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.id={$info['id']} order by time DESC");
 			}
-		
+
 		$this->list = $list;
     	$this->display();
     }
