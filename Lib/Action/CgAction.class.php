@@ -145,27 +145,63 @@ class CgAction extends Action {
     public function goods(){
     	$uid = $_GET['uid'];
     	$this->uid = $uid;
+    	$Member = M('Member');
+        $minfo = $Member->where("wxid='$uid'")->find();
     	$Jf_goods = M('Jf_goods');
 		$list = $Jf_goods->where("prin>0")->order("jf DESC")->select();
-		
+		$this->minfo = $minfo;
 		$this->list = $list;
     	$this->display();
     }
  	public function goodsinfo(){
     	$uid = $_GET['uid'];
     	$this->uid = $uid;
+    	$Member = M('Member');
+        $minfo = $Member->where("wxid='$uid'")->find();
     	$id = intval($_GET['id']);
     	$Jf_goods = M('Jf_goods');
 		$info = $Jf_goods->where("prin>0 and id=$id")->find();
 		
 		if($_GET['act']=='dh' && $info){
-			$Member = M('Member');
-        	$minfo = $Member->where("wxid='$uid'")->find();
-        	if($minfo['jf']);
+
+        	if(intval($minfo['score'])>=$info['jf']){
+        		$data['score'] = intval($minfo['score'])-$info['jf'];
+        		$Member->where("wxid='$uid'")->save($data);
+        		$M_jf_logs = M('M_jf_logs');
+        		$data = array();
+        		$data['mid'] = $minfo['id'];
+        		$data['num'] = -$info['jf'];
+        		$data['type'] = -1;
+        		$data['time'] = time();
+        		$M_jf_logs->add($data);
+        		$M_dh_logs = M('M_dh_logs');
+        		$data = array();
+        		$data['mid'] = $minfo['id'];
+        		$data['gid'] = $info['id'];
+        		$data['gname'] = $info['name'];
+        		$data['ctime'] = time();
+        		$M_dh_logs->add($data);
+        		JS::Alert('兑换成功');
+        	}else{
+        		JS::Alert('抱歉，您的积分不够！');
+        	}
 		}
-		
+		$this->minfo = $minfo;
 		$this->info = $info;
     	$this->display();
+    }
+    public function dhlogs(){
+   	 	$uid = $_GET['uid'];
+    	$this->uid = $uid;
+    	$Member = M('Member');
+        $minfo = $Member->where("wxid='$uid'")->find();
+        
+        $M_dh_logs = M('M_dh_logs');
+        $list = $M_dh_logs->where("mid={$minfo['id']}")->select();;
+        
+        $this->list = $list;
+    	$this->display();
+    	
     }
  	public function tel(){
     	$this->display();

@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>我的积分记录</title>
+		<title>兑换记录</title>
 		<meta charset="utf-8" /> 
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/wx.css">
@@ -9,13 +9,14 @@
 	<body>
 		<div id="pageList">
 			<div class="page">
-			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <a href='__URL__/member/uid/{$uid}'>我的会员卡</a><br>
-			<center><h2 class="title">我的积分记录</h2></center><br>
+			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/member/uid/{$uid}'>我的会员卡</a><br>
+			<center><h2 class="title">兑换记录</h2></center><br>
 			<php>if($list){</php>
 			<table>
 			<tr>
 				<th>日期</th>
-				<th>积分明细</th>
+				<th>兑换物品</th>
+				<th>状态</th>
 			</tr>
 			<?php $i = 0; ?>
 			<volist name="list" id="vo">			
@@ -24,8 +25,9 @@
 			<?php else: ?>
 			<tr>
 			<?php endif; ?>				
-				<td><php>echo date('Y-d-m H:i:s',$vo[time]);</php></td>
-				<td><php>echo $types[$vo['type']];if($vo['num']<0){echo $vo['num'];}else{echo '+'.$vo['num'];}</php></td>
+				<td><php>echo date('Y-d-m H:i:s',$vo[ctime]);</php></td>
+				<td>{$vo.gname}</td>
+				<td><php>if($vo[gtime]){echo '已领取';}else{echo '未领取';}</php></td>
 			</tr>
 			</volist>
 			

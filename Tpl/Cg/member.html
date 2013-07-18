@@ -9,7 +9,7 @@
 	<body>
 		<div id="pageList">
 			<div class="page">
-			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='#'>个人中心</a><br>
+			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/member/uid/{$uid}'>我的会员卡</a><br>
 			<center><h2 class="title">我的会员卡</h2></center><br>
 			<center>卡号：{$info['card']}</center><br>
 			<center>积分：{$info['score']}</center><br>
@@ -17,6 +17,7 @@
 			您还未绑定手机号，绑定后享受更多服务。<a href="__URL__/bdtel/uid/{$uid}">点击绑定
 			<php>}</php>
 			<br><br>
+			<a href='__URL__/goods/uid/{$uid}'>积分兑换</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/dhlogs/uid/{$uid}'>兑换记录</a><br>
 			<a href='__URL__/jflogs/uid/{$uid}'>我的会员积分记录</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/costlogs/uid/{$uid}'>我的消费记录</a><br>
 			</div>
 		</div>

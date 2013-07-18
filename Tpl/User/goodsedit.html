@@ -18,7 +18,7 @@
 				<td>消耗积分: <input type="text" name="jf" value="{$info[jf]}" />  </td>				
 			</tr>
 			<tr>
-				<td>状态: <input type="radio" name="prin" value="1" checked="checked" />上架  <input type="radio" name="prin" value="0"  />下架 </td>				
+				<td>状态: <input type="radio" name="prin" value="1" <php>if($info[prin]==1){echo 'checked="checked"';}</php> />上架  <input type="radio" name="prin" value="0" <php>if($info[prin]==0){echo 'checked="checked"';}</php> />下架 </td>				
 			</tr>
 			<tr>
 				<td>物品图片: <php>if($info['pic']){</php><img width="320px" src="__ROOT__/{$info['pic']}"/> <php>}</php> </td>				

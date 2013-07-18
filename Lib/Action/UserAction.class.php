@@ -513,12 +513,65 @@ class UserAction extends Action {
 	}
 	public function goods(){
 		$login = get_cookie();
+		$Jf_goods = M('Jf_goods');
 		if(!$login[0]){
 			JS::Exitframeset(__ROOT__."/index.php/Index/login");
 		}
-		$Jf_goods = M('Jf_goods');
+		$id = intval($_GET['id']);
+		if($id){
+			$info = $Jf_goods->where("id=$id")->find();
+			if(file_exists($info['pic'])){
+   					unlink($info['pic']);
+  					}
+			$Jf_goods->where('id='.$id)->delete();
+		}
+		
 		$list = $Jf_goods->select();
 		
+		$this->list = $list;
+		import('head','Tpl','.html');
+     	$this->display();
+     	import('foot','Tpl','.html');
+	}
+	public function dhlogs(){
+		$login = get_cookie();
+		if(!$login[0]){
+			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		}
+		$id = intval($_GET['id']);
+		if($id){
+			$M_dh_logs = M('M_dh_logs');
+			$data['gtime'] = time();
+			$M_dh_logs->where("id=$id")->save($data);
+			
+		}
+		if($_GET['card'] || $_GET['tel']){
+			$card = stripslashes(urldecode(trim($_GET['card'])));
+			$tel = stripslashes(urldecode(trim($_GET['tel'])));
+			$Member = M('Member');
+			if($card){
+				$info = $Member->where("card='$card'")->find();
+				$this->card = $card;
+			}
+			if($tel){
+				$info = $Member->where("tel='$tel'")->find();
+				$this->tel = $tel;
+			}
+			if($info){
+				$sql = " and mid={$info['id']} ";
+			}else{
+				$sql = " and mid=0 ";
+			}
+		}
+		$Model = new Model();
+		import("ORG.Util.Page");
+		$count = $Model->query("select count(*) num from wx_member m,wx_m_dh_logs l where m.id=l.mid $sql ");
+		$count = $count[0]['num'];
+    	$Page = new Page($count,25);
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    	$show = $Page->show();
+		$list = $Model->query("select m.card card,m.tel tel,l.gname gname,l.gtime gtime,l.id id from wx_member m,wx_m_dh_logs l where m.id=l.mid $sql order by l.ctime DESC limit {$Page->firstRow},{$Page->listRows}");
+		$this->page = $show;
 		$this->list = $list;
 		import('head','Tpl','.html');
      	$this->display();

@@ -2,7 +2,7 @@
 function del(uid){
 	if(confirm('确定要删除'))
 		{
-		location.href='__URL__/userlist/id/'+uid;
+		location.href='__URL__/goods/id/'+uid;
 		}
 }
 </script>
@@ -36,7 +36,7 @@ function del(uid){
 				<td>{$vo.name}</td>
 				<td>{$vo.jf}</td>
 				<td><php>if($vo['prin']){echo '上架';}else{echo '下架';}</php></td>
-				<td><a href='__URL__/goodsedit/id/{$vo.id}'>修改</a>/<a href='__URL__/jflogs/mid/{$vo.id}'>查看积分记录</a></td>
+				<td><a href='__URL__/goodsedit/id/{$vo.id}'>修改</a>/<a target="main" href="#" onclick="del({$vo.id})">删除</a></td>
 			</tr>
 			</volist>
 			
