@@ -115,6 +115,7 @@ class CgAction extends Action {
     }
     public function jflogs(){
     	$uid = $_GET['uid'];
+    	$this->uid = $uid;
     	$Member = M('Member');
         $info = $Member->where("wxid='$uid'")->find();
         $Model = new Model();
@@ -130,6 +131,7 @@ class CgAction extends Action {
     }
 	public function costlogs(){
 		$uid = $_GET['uid'];
+    	$this->uid = $uid;
     	$Member = M('Member');
         $info = $Member->where("wxid='$uid'")->find();
         $Model = new Model();
@@ -140,7 +142,32 @@ class CgAction extends Action {
 		$this->list = $list;
     	$this->display();
     }
-    public function tel(){
+    public function goods(){
+    	$uid = $_GET['uid'];
+    	$this->uid = $uid;
+    	$Jf_goods = M('Jf_goods');
+		$list = $Jf_goods->where("prin>0")->order("jf DESC")->select();
+		
+		$this->list = $list;
+    	$this->display();
+    }
+ 	public function goodsinfo(){
+    	$uid = $_GET['uid'];
+    	$this->uid = $uid;
+    	$id = intval($_GET['id']);
+    	$Jf_goods = M('Jf_goods');
+		$info = $Jf_goods->where("prin>0 and id=$id")->find();
+		
+		if($_GET['act']=='dh' && $info){
+			$Member = M('Member');
+        	$minfo = $Member->where("wxid='$uid'")->find();
+        	if($minfo['jf']);
+		}
+		
+		$this->info = $info;
+    	$this->display();
+    }
+ 	public function tel(){
     	$this->display();
     }
  	public function tuzhi(){

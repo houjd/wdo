@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>积分兑换</title>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/wx.css">
+	</head>
+
+	<body>
+		
+			<h2>积分兑换</h2>
+			<volist name="list" id="vo">	
+			<p>
+			<a href="__URL__/goodsinfo/id/{$vo.id}/uid/{$uid}">{$vo.name}</a><br>
+			<a href="__URL__/goodsinfo/id/{$vo.id}/uid/{$uid}"><img width="260px" src="__ROOT__/{$vo.pic}"/></a><br>
+			兑换所需积分：{$vo.jf}<br>
+			<a href="__URL__/goodsinfo/id/{$vo.id}/uid/{$uid}">查看详情</a><br>
+			
+			</p>
+			</volist>
+			<p>
+			
+			</p>
+		
+	</body>
+
+</html>

@@ -185,6 +185,10 @@ class UserAction extends Action {
 		$act = $_GET['act'];
 		
 		if( $act=='del' && $id){
+			$info = $News->where("id=$id")->find();
+			if(file_exists($info['pic'])){
+   					unlink($info['pic']);
+  					}
 			$News->where('id='.$id)->delete();
 		}
 		if( $act=='top' && $id){
@@ -246,7 +250,7 @@ class UserAction extends Action {
 			}else{// 上传成功 获取上传文件信息
 				$info =  $upload->getUploadFileInfo();
 				$data['pic'] = $info[0]['savepath'].$info[0]['savename'];
-				if(file_exists($ninfo['pic'])&& !strpos($ninfo['pic'],'wximg')){
+				if(file_exists($ninfo['pic'])){
    					unlink($ninfo['pic']);
   					}
   				$img = 	$info[0]['savepath'].$info[0]['savename'];
@@ -428,6 +432,94 @@ class UserAction extends Action {
 		$this->types = $types;
 		$this->list = $list;
 		$this->page = $show;
+		import('head','Tpl','.html');
+     	$this->display();
+     	import('foot','Tpl','.html');
+	}
+	public function goodsedit(){
+		$login = get_cookie();
+		if(!$login[0]){
+			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		}
+		$id = intval($_GET['id']);
+		$Jf_goods = M('Jf_goods');
+		if($id){
+			$ninfo = $Jf_goods->where("id=$id")->select();
+			$ninfo = $ninfo[0];
+
+		}
+		if($_POST || $_FILES)
+		{	
+			if(empty($_POST['name'])){
+				JS::Alert('请输入名称！');
+				JS::Back();
+			}
+			if(empty($_POST['info'])){
+				JS::Alert('请输入简介！');
+				JS::Back();
+			}
+			if(empty($_POST['jf'])){
+				JS::Alert('请输入消耗积分！');
+				JS::Back();
+			}
+			import('ORG.Net.UploadFile');
+			$upload = new UploadFile();// 实例化上传类
+			$upload->maxSize  = 3145728 ;// 设置附件上传大小
+			$upload->allowExts  = array('jpg', 'png');// 设置附件上传类型
+			$upload->savePath =  'Public/uploads/';// 设置附件上传目录
+			if(!$upload->upload()) {// 上传错误提示错误信息
+				//$this->error($upload->getErrorMsg());
+			}else{// 上传成功 获取上传文件信息
+				$info =  $upload->getUploadFileInfo();
+				$data['pic'] = $info[0]['savepath'].$info[0]['savename'];
+				if(file_exists($ninfo['pic'])){
+   					unlink($ninfo['pic']);
+  					}
+  				$img = 	$info[0]['savepath'].$info[0]['savename'];
+			}
+			$data['name'] = $_POST['name'];
+			$data['info'] = $_POST['info'];
+			$data['jf'] = intval($_POST['jf']);
+			$data['prin'] = intval($_POST['prin']);
+			if($id){
+				$Jf_goods->where("id=$id")->save($data);
+				JS::Alert('修改成功');
+			}else{
+				$Jf_goods->data($data)->add();
+				JS::Alert('添加成功');
+			}
+			JS::_Goto(__ROOT__."/index.php/User/goods");
+		}	
+		
+		
+		require_once 'Lib/Common/plugins/ckeditor/ckeditor.php';
+		require_once 'Lib/Common/plugins/ckfinder/ckfinder.php';
+
+		$CKEditor = new CKEditor();
+		$CKEditor->returnOutput = true;
+		$CKEditor->basePath = __ROOT__.'/Lib/Common/plugins/ckeditor/';
+		$CKEditor->config['width'] = 600;
+		$CKEditor->textareaAttributes = array("cols" => 80, "rows" => 10);
+		CKFinder::SetupCKEditor( $CKEditor,__ROOT__.'/Lib/Common/plugins/ckfinder/') ;
+		$code = $CKEditor->editor("info", $ninfo['info']);
+		
+		$this->code = $code;
+		$this->id = $id;
+		$this->info = $ninfo;
+		
+		import('head','Tpl','.html');
+     	$this->display();
+     	import('foot','Tpl','.html');
+	}
+	public function goods(){
+		$login = get_cookie();
+		if(!$login[0]){
+			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		}
+		$Jf_goods = M('Jf_goods');
+		$list = $Jf_goods->select();
+		
+		$this->list = $list;
 		import('head','Tpl','.html');
      	$this->display();
      	import('foot','Tpl','.html');
