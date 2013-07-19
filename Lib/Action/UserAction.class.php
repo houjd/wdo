@@ -545,10 +545,12 @@ class UserAction extends Action {
 			$M_dh_logs->where("id=$id")->save($data);
 			
 		}
-		if($_GET['card'] || $_GET['tel']){
+		if($_GET['card'] || $_GET['tel'] ||$_GET['zt']){
 			$card = stripslashes(urldecode(trim($_GET['card'])));
 			$tel = stripslashes(urldecode(trim($_GET['tel'])));
+			$zt = intval($_GET['zt']);
 			$Member = M('Member');
+			$sql = ' ';
 			if($card){
 				$info = $Member->where("card='$card'")->find();
 				$this->card = $card;
@@ -558,9 +560,18 @@ class UserAction extends Action {
 				$this->tel = $tel;
 			}
 			if($info){
-				$sql = " and mid={$info['id']} ";
-			}else{
-				$sql = " and mid=0 ";
+				$sql .= " and mid={$info['id']} ";
+			}elseif($tel || $card){
+				$sql .= " and mid=0 ";
+			}
+			if($zt){
+				if($zt==1){
+					$sql .= " and gtime=0 ";
+				}
+				if($zt==2){
+					$sql .= " and gtime>0 ";
+				}
+				$this->zt = $zt;
 			}
 		}
 		$Model = new Model();
@@ -570,7 +581,7 @@ class UserAction extends Action {
     	$Page = new Page($count,25);
     	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
     	$show = $Page->show();
-		$list = $Model->query("select m.card card,m.tel tel,l.gname gname,l.gtime gtime,l.id id from wx_member m,wx_m_dh_logs l where m.id=l.mid $sql order by l.ctime DESC limit {$Page->firstRow},{$Page->listRows}");
+		$list = $Model->query("select m.card card,m.tel tel,l.gname gname,l.gtime gtime,l.id id,l.ctime ctime from wx_member m,wx_m_dh_logs l where m.id=l.mid $sql order by l.ctime DESC limit {$Page->firstRow},{$Page->listRows}");
 		$this->page = $show;
 		$this->list = $list;
 		import('head','Tpl','.html');

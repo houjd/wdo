@@ -1,37 +1,106 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>查询后台</title>
-<link rel="stylesheet" rev="stylesheet" href="__ROOT__/Public/css/login.css" media="all" />
+	<!--
+		Charisma v1.0.0
+
+		Copyright 2012 Muhammad Usman
+		Licensed under the Apache License v2.0
+		http://www.apache.org/licenses/LICENSE-2.0
+
+		http://usman.it
+		http://twitter.com/halalit_usman
+	-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>微客聚管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- The styles -->
+	<link id="bs-css" href="__ROOT__/Public/ht/css/bootstrap-cerulean.css" rel="stylesheet">
+	<style type="text/css">
+	  body {
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<link href="__ROOT__/Public/ht/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="__ROOT__/Public/ht/css/charisma-app.css" rel="stylesheet">
+	<link href="__ROOT__/Public/ht/css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	<link href='__ROOT__/Public/ht/css/fullcalendar.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/fullcalendar.print.css' rel='stylesheet'  media='print'>
+	<link href='__ROOT__/Public/ht/css/chosen.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/uniform.default.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/colorbox.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/jquery.cleditor.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/jquery.noty.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/noty_theme_default.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/elfinder.min.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/elfinder.theme.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/jquery.iphone.toggle.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/opa-icons.css' rel='stylesheet'>
+	<link href='__ROOT__/Public/ht/css/uploadify.css' rel='stylesheet'>
+
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="__ROOT__/Public/ht/img/favicon.ico">
+		
 </head>
 
 <body>
-<div class="top"></div>
+		<div class="container-fluid">
+		<div class="row-fluid">
+		
+			<div class="row-fluid">
+				<div class="span12 center login-header">
+					<h2>微客聚管理系统</h2>
+				</div><!--/span-->
+			</div><!--/row-->
+			
+			<div class="row-fluid">
+				<div class="well span5 center login-box">
+					<div class="alert alert-info">
+						欢迎使用微客聚管理系统
+					</div>
+					<form class="form-horizontal" action="__URL__/login" method="post">
+						<fieldset>
+							<div class="input-prepend" title="用户名" data-rel="tooltip">
+								<span class="add-on"><i class="icon-user"></i></span><input autofocus class="input-large span10" name="username" id="username" type="text"  />
+							</div>
+							<div class="clearfix"></div>
 
-<div class="main">
-	<div class="wrap">
-		<div class="area">
-			<div class="left">
-				
-			</div>
-			<div class="right">
-				<div class="login">
-					<h2>查询后台</h2>
-					<form action="__URL__/login" method="post" >
-						<div>账&nbsp;&nbsp;号：&nbsp;<input type="text" name="username" id="username" maxlength="32" /></div>
-						<div>密&nbsp;&nbsp;码：&nbsp;<input type="password" name="userpwd" id="password" maxlength="32" /></div>						
-						<div class="submit">
-							<input type="submit" value="登 录" />
-							<input type="reset" value="重 置" />
-						</div>
+							<div class="input-prepend" title="密码" data-rel="tooltip">
+								<span class="add-on"><i class="icon-lock"></i></span><input class="input-large span10" name="userpwd" id="password" type="password"  />
+							</div>
+							<div class="clearfix"></div>
+
+							<div class="input-prepend">
+							<label class="remember" for="remember"><input type="checkbox" id="remember" />记住账号</label>
+							</div>
+							<div class="clearfix"></div>
+
+							<p class="center span5">
+							<button type="submit" class="btn btn-primary">登录</button>
+							</p>
+						</fieldset>
 					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="foot"></div>
+				</div><!--/span-->
+			</div><!--/row-->
+				</div><!--/fluid-row-->
+		
+	</div><!--/.fluid-container-->
+
+
+	
+		
 </body>
 </html>
+
 

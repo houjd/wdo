@@ -7,6 +7,11 @@ class IndexAction extends Action {
 		}
      	$this->display();
     }
+    public function test(){
+    	import('head1','Tpl','.html');
+     	$this->display();
+     	import('foot1','Tpl','.html');
+    }
     public function indexs(){
     	$login = get_cookie();
 		if(!$login[0]){
@@ -20,7 +25,16 @@ class IndexAction extends Action {
      	$this->display();
      	import('foot','Tpl','.html');
     }
-
+    public function head(){
+    	$login = get_cookie();
+		$this->login = $login;
+     	$this->display();
+    }
+	public function foot(){
+		$login = get_cookie();
+		$this->login = $login;
+     	$this->display();
+    }
     public function top(){
     	$login = get_cookie();
 		$this->login = $login;
