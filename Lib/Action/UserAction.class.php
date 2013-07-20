@@ -220,7 +220,8 @@ class UserAction extends Action {
 		$this->page = $show;
 		
 		$this->t = $t;
-
+		$type = array(1=>'优惠信息',2=>'商品信息');
+		$this->type = $type;
      	$this->display();
 
 	}
