@@ -1,30 +1,73 @@
-<div class="top">
-	<div class="top_left"></div>
-	<div class="title_text">
-		<span>添加新用户</span>
-	</div>
-	<div class="top_right"></div>
-</div>
-<div class="wrap">
-	<div class="main list_box">
-		<form action="__URL__/add" method="post" name="form1" id="form1">
-		<table>
-			<tr>
-				<td>用户名: <input type="text" name="username" />  </td>				
-			</tr>
-			<tr>
-				<td>经销商名称: <input type="text" name="sjname" />  </td>				
-			</tr>
-			<tr>
-				<td>设置密码: <input type="password" name="password1" />  </td>				
-			</tr>
-			<tr>
-				<td>确认密码: <input type="password" name="password2" />  </td>				
-			</tr>			
-			<tr>
-				<td><input type="submit" value="确  认" /></td>
-			</tr>
-		</table>
-		</form>
-	</div>
-</div>
+	<include file="Index:head" />	
+
+<div id="content" class="span10">
+			<!-- content starts -->
+			
+
+			<div>
+				<ul class="breadcrumb">
+					<li>
+						<a href="__ROOT__/index.php">首页</a> <span class="divider">/</span>
+					</li>
+					<li>
+						<a href="#">基本信息</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header well" data-original-title>
+						<h2><i class="icon-edit"></i>  添加新用户</h2>
+					</div>
+					<div class="box-content">
+						<form class="form-horizontal"   action="__URL__/add" method="post" name="form1" id="form1">
+						  <fieldset>
+							<legend>添加新用户</legend>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">用户名 </label>
+							  <div class="controls">
+								<input type="text" name="username" />
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">经销商名称 </label>
+							  <div class="controls">
+								<input type="text" name="sjname" />
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">设置密码 </label>
+							  <div class="controls">
+								<input type="password" name="password1" />
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">确认密码 </label>
+							  <div class="controls">
+								<input type="password" name="password2" />
+							  </div>
+							</div>
+				
+							<div class="form-actions">
+							  <button type="submit" class="btn btn-primary">提交</button>
+							</div>
+						  </fieldset>
+						</form>   
+
+					</div>
+				</div><!--/span-->
+
+			</div><!--/row-->
+
+
+			
+    
+					<!-- content ends -->
+			</div><!--/#content.span10-->
+				</div><!--/fluid-row-->
+				
+		<hr>
+
+<include file="Index:foot" />
+

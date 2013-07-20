@@ -1,27 +1,69 @@
-<div class="top">
-	<div class="top_left"></div>
-	<div class="title_text">
-		<span>基本信息</span>
-	</div>
-	<div class="top_right"></div>
-</div>
-<div class="wrap">
-	<div class="main list_box">
-		<form action="__URL__/info" method="post" name="form1" id="form1">
-		<table>
-			<tr>
-				<td>名称: <input type="text" name="cname" value="{$info[cname]}" />  </td>				
-			</tr>
-			<tr>
-				<td>token: <input type="text" name="token" value="{$info[token]}"/>  </td>				
-			</tr>
-			<tr>
-				<td>积分倍数: <input type="text" name="jf" value="{$info[jf_num]}"/>（消费1RMB=?积分,请填入整数）  </td>				
-			</tr>			
-			<tr>
-				<td><input type="submit" value="确  认" /></td>
-			</tr>
-		</table>
-		</form>
-	</div>
-</div>
+	<include file="Index:head" />	
+
+<div id="content" class="span10">
+			<!-- content starts -->
+			
+
+			<div>
+				<ul class="breadcrumb">
+					<li>
+						<a href="__ROOT__/index.php">首页</a> <span class="divider">/</span>
+					</li>
+					<li>
+						<a href="#">基本信息</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header well" data-original-title>
+						<h2><i class="icon-edit"></i>  基本信息</h2>
+					</div>
+					<div class="box-content">
+						<form class="form-horizontal"   action="__URL__/info" method="post" name="form1" id="form1">
+						  <fieldset>
+							<legend>基本信息</legend>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">名称 </label>
+							  <div class="controls">
+								<input type="text" name="cname" value="{$info[cname]}" />
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">token </label>
+							  <div class="controls">
+								<input type="text" name="token" value="{$info[token]}"/>
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">积分倍数 </label>
+							  <div class="controls">
+								<input type="text" name="jf" value="{$info[jf_num]}"/>
+								 <span class="help-inline">消费1RMB=?积分,请填入整数</span>
+							  </div>
+							</div>
+							
+				
+							<div class="form-actions">
+							  <button type="submit" class="btn btn-primary">提交</button>
+							</div>
+						  </fieldset>
+						</form>   
+
+					</div>
+				</div><!--/span-->
+
+			</div><!--/row-->
+
+
+			
+    
+					<!-- content ends -->
+			</div><!--/#content.span10-->
+				</div><!--/fluid-row-->
+				
+		<hr>
+
+<include file="Index:foot" />
+

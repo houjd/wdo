@@ -65,12 +65,12 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="__ROOT__/Public/ht/img/logo20.png" /> <span>weikeju</span></a>
+				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="__ROOT__/Public/ht/img/logo20.png" /> <span>Vkeju</span></a>
 				
 				<!-- theme selector starts -->
 				
 				<div class="btn-group pull-right theme-container" >
-					<a class="btn dropdown-toggle" href="#">
+					<a class="btn dropdown-toggle" href="__ROOT__/index.php/Index/login/act/out">
 						<i class="icon-remove-sign"></i><span class="hidden-phone">安全退出</span>
 					</a>
 				</div>
@@ -79,7 +79,7 @@
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle"  href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> admin</span>
+						<i class="icon-user"></i><span class="hidden-phone"> {$user[1]}</span>
 						
 					</a>
 				</div>
@@ -99,31 +99,33 @@
 				<ul class="nav nav-tabs nav-stacked main-menu">
 				<li ><a  href="__ROOT__/index.php"  ><h4><i class="icon-home"></i> <span class="hidden-tablet">首页</span></h4></a></li>
 				<li ><a   href="javascript:void(0);"  onclick="hide('li1')" ><h4><i class="icon-eye-open"></i> <span class="hidden-tablet">基本信息</span></h4></a></li>
-					<li id="li1" style=" display:none;"><ul class="nav nav-tabs nav-stacked main-menu">
+					<li id="li1" <php>if($lid != 1){echo 'style=" display:none;"';}</php>><ul class="nav nav-tabs nav-stacked main-menu">
+					<?php if($user[0] == 1){?>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/add"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 添加用户</span></a></li>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/userlist"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp;  用户列表</span></a></li>
+					<?php }?>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/info"><span class="hidden-tablet"> &nbsp;&nbsp;&nbsp;&nbsp; 基本信息设置</span></a></li>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/password"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp;  修改密码</span></a></li>
 						</ul></li>
-					<li ><a  href="javascript:void(0);"  onclick="hide('li2')"><h4><i class="icon-list-alt"></i> <span class="hidden-tablet">新闻管理</span></h4></a></li>
-						<li id="li2" style=" display:none;"><ul class="nav nav-tabs nav-stacked main-menu">
+					<li ><a  href="javascript:void(0);"  onclick="hide('li2')"><h4><i class="icon-list-alt"></i> <span class="hidden-tablet">文章管理</span></h4></a></li>
+						<li id="li2"  <php>if($lid != 2){echo 'style=" display:none;"';}</php>><ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/news?t=1"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 优惠信息</span></a></li>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/news?t=2"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 橱柜样式</span></a></li>
 						
 					</ul></li>
 					<li ><a  href="javascript:void(0);"  onclick="hide('li3')" ><h4><i class="icon-user"></i> <span class="hidden-tablet">会员管理</span></h4></a></li>
-					<li id="li3" style=" display:none;"><ul class="nav nav-tabs nav-stacked main-menu">
+					<li id="li3"  <php>if($lid != 3){echo 'style=" display:none;"';}</php>><ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/memberlist"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 会员列表</span></a></li>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/cost"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 会员消费结算</span></a></li>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/costlogs"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 会员消费记录</span></a></li>
 						</ul></li>
 						<li ><a  href="javascript:void(0);"  onclick="hide('li4')" ><h4><i class="icon-star"></i> <span class="hidden-tablet">积分兑换管理</span></h4></a></li>
-					<li id="li4" style=" display:none;"><ul class="nav nav-tabs nav-stacked main-menu">
+					<li id="li4"  <php>if($lid != 4){echo 'style=" display:none;"';}</php>><ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/dhlogs"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 物品领取查询</span></a></li>
-						<li><a class="ajax-link" href="__ROOT__/index.php/User/hlcp"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 兑换物品列表</span></a></li>
+						<li><a class="ajax-link" href="__ROOT__/index.php/User/goods"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 兑换物品列表</span></a></li>
 						</ul></li>
 						<li ><a  href="javascript:void(0);"  onclick="hide('li5')" ><h4><i class="icon-bullhorn"></i> <span class="hidden-tablet">活动管理</span></h4></a></li>
-					<li id="li5" style=" display:none;"><ul class="nav nav-tabs nav-stacked main-menu">
+					<li id="li5"  <php>if($lid != 5){echo 'style=" display:none;"';}</php>><ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/ggk"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 刮刮卡</span></a></li>
 						<li><a class="ajax-link" href="__ROOT__/index.php/User/cost"><span class="hidden-tablet">&nbsp;&nbsp;&nbsp;&nbsp; 欢乐猜牌</span></a></li>
 						</ul></li>

@@ -1,32 +1,82 @@
+	<include file="Index:head" />	
 <script type="text/javascript" src="__ROOT__/Lib/Common/plugins/ckeditor/ckeditor.js" ></script>
  <script type="text/javascript" src="__ROOT__/Lib/Common/plugins/ckfinder/ckfinder.js"></script>
-<div class="top">
-	<div class="top_left"></div>
-	<div class="title_text">
-		<span>编辑</span>
-	</div>
-	<div class="top_right"></div>
-</div>
-<div class="wrap">
-	<div class="main list_box">
-		<form action="__URL__/editnew?t={$t}&id={$nid}" method="post" name="form1" id="form1" enctype="multipart/form-data">
-		<table>
-			<tr>
-				<td>标题: <input type="text" name="title" value="{$info[title]}" />  </td>				
-			</tr>
-			<tr>
-				<td>图片: <php>if($info['pic']){</php><img width="320px" src="__ROOT__/{$info['pic']}"/> <php>}</php> </td>				
-			</tr>
-			<tr>
-				<td> <input type="file"  name="photo"> (注：支持JPG、PNG格式，较好的效果为640*320) </td>				
-			</tr>
-			<tr>
-				<td>内容: {$code}  </td>				
-			</tr>			
-			<tr>
-				<td><input type="submit" value="确  认" /></td>
-			</tr>
-		</table>
-		</form>
-	</div>
-</div>
+<div id="content" class="span10">
+			<!-- content starts -->
+			
+
+			<div>
+				<ul class="breadcrumb">
+					<li>
+						<a href="__ROOT__/index.php">首页</a> <span class="divider">/</span>
+					</li>
+					<li>
+						<a href="#">文章管理</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header well" data-original-title>
+						<h2><i class="icon-edit"></i>  编辑文章</h2>
+					</div>
+					<div class="box-content">
+						<form class="form-horizontal"   action="__URL__/editnew?t={$t}&id={$nid}" method="post" name="form1" id="form1" enctype="multipart/form-data">
+						  <fieldset>
+							<legend>编辑文章</legend>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">标题 </label>
+							  <div class="controls">
+								<input type="text" name="title" value="{$info[title]}" />
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">图片预览 </label>
+							  <div class="controls">
+								<php>if($info['pic']){</php><img width="320px" src="__ROOT__/{$info['pic']}"/> <php>}</php> 
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="fileInput">上传图片</label>
+							  <div class="controls">
+								<div class="uploader" id="uniform-fileInput"><input class="input-file uniform_on" name="photo" id="photo" type="file" size="19" style="opacity: 0; ">
+								<span class="action">选择图片</span><span class="help-inline">注：支持JPG、PNG格式，较好的效果大图为640*320，小图为80*80</span></div>
+							  </div>
+							</div>
+							<div class="control-group">
+							  <label class="control-label" for="typeahead">内容 </label>
+							  <div class="controls">
+							  {$code}
+								
+							  </div>
+							</div>
+							
+				
+							<div class="form-actions">
+							  <button type="submit" class="btn btn-primary">提交</button>
+							</div>
+						  </fieldset>
+						</form>   
+
+					</div>
+				</div><!--/span-->
+
+			</div><!--/row-->
+
+
+			
+    
+					<!-- content ends -->
+			</div><!--/#content.span10-->
+				</div><!--/fluid-row-->
+				
+		<hr>
+
+<include file="Index:foot" />
+
+
+
+
+
+

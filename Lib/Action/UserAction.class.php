@@ -1,13 +1,13 @@
 <?php
 class UserAction extends Action {
 	public function add(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 1;//栏目ID
 		$user = get_cookie();
 		if(!$user[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
-		if($user[0] != 1){
-			JS::_Goto(__ROOT__."/index.php");
-		}
+		$this->user = $user;
 
 		if($_POST)
 		{
@@ -52,20 +52,23 @@ class UserAction extends Action {
 					JS::Back();
 			}
 			JS::Alert("添加成功");
+			JS::_Goto(__ROOT__."/index.php/User/userlist");
 		}
 		
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
+
 	}
 	
 	
 	public function password(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 1;//栏目ID
 		$user = get_cookie();
 		if(!$user[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
-
+		$this->user = $user;
 		$userinfo['uname'] = $user[1];
 		if($_POST)
 		{
@@ -97,6 +100,7 @@ class UserAction extends Action {
 				$data['password'] = md5($userpwd1);
 				$User->where("id={$userinfo['id']}")->save($data);
 				JS::Alert('密码修改成功！');
+				JS::_Goto(__ROOT__."/index.php/User/password");
 			}else{
 				JS::Alert("原密码错误!");
 				JS::Back();
@@ -104,18 +108,16 @@ class UserAction extends Action {
 
 		}
 		$this->userinfo = $userinfo;
-		import('head','Tpl','.html');
      	$this->display();
-     	import('foot','Tpl','.html');
 	}
 	public function userlist(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 1;//栏目ID
 		$user = get_cookie();
 		if(!$user[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
-		if($user[0] != 1){
-			JS::_Goto(__ROOT__."/index.php");
-		}
+		$this->user = $user;
 		$User = M('User');
 		$del_id = $_GET['id'];
 		if( $del_id && $del_id != 1){
@@ -125,27 +127,29 @@ class UserAction extends Action {
 		import("ORG.Util.Page");
 		$count = $User->where('id!=1')->count();
     	$Page = new Page($count,25);
-    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     	$show = $Page->show();
     	$list = $User->where('id!=1')->limit($Page->firstRow.','.$Page->listRows)->select();
 		$this->list = $list;
 		$this->page = $show;
 		
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
 		}
 
 	public function info(){
-		$login = get_cookie();
-		if(!$login[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 1;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		$User = M('User');
 		
 		if($_POST)
 		{
-			$info = $User->where("id={$login[0]}")->select();
+			$info = $User->where("id={$user[0]}")->select();
 			$info = $info[0];
 			$cname = stripslashes(urldecode(trim($_POST['cname'])));
 			$token = stripslashes(urldecode(trim($_POST['token'])));
@@ -161,23 +165,26 @@ class UserAction extends Action {
 			$data['cname'] = $cname;
 			$data['token'] = $token;
 			$data['jf_num'] = $jf_num;
-			$User->where("id={$login[0]}")->save($data);
+			$User->where("id={$user[0]}")->save($data);
 			JS::Alert('修改成功');
-				
+			JS::_Goto(__ROOT__."/index.php/User/info");	
 		}
-		$info = $User->where("id={$login[0]}")->select();
+		$info = $User->where("id={$user[0]}")->select();
 		$info = $info[0];
 		$this->info = $info;
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
+   
 		
 	}
 	public function news(){
-		$login = get_cookie();
-		if(!$login[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 2;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		$t = $_GET['t'];
 		$News = M('News');
 	
@@ -198,6 +205,7 @@ class UserAction extends Action {
 			$td['pic'] = $temp[0]['pic'];
 			$td['type'] = $temp[0]['type'];
 			$td['time'] = $temp[0]['time'];
+			$td['uid'] = $user[0];
 			$News->where('id='.$id)->delete();
 			$News->add($td);
 			}
@@ -205,22 +213,25 @@ class UserAction extends Action {
 		import("ORG.Util.Page");
 		$count = $News->where("type=$t")->count();
     	$Page = new Page($count,20);
-    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     	$show = $Page->show();
-    	$list = $News->where("type=$t and uid={$login[0]}")->order('id DESC')->limit($Page->firstRow.','.$Page->listRows)->select();
+    	$list = $News->where("type=$t and uid={$user[0]}")->order('id DESC')->limit($Page->firstRow.','.$Page->listRows)->select();
 		$this->list = $list;
 		$this->page = $show;
 		
 		$this->t = $t;
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
+
 	}
 	public function editnew(){
-		$login = get_cookie();
-		if(!$login[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 2;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		$nid = intval($_GET['id']);
 		$t = $_GET['t'];
 		$News = M('News');
@@ -236,7 +247,7 @@ class UserAction extends Action {
 				JS::Alert('请输入名称！');
 				JS::Back();
 			}
-			if(empty($_POST['content'])){
+			if(empty($_POST['content1'])){
 				JS::Alert('请输入内容！');
 				JS::Back();
 			}
@@ -256,14 +267,14 @@ class UserAction extends Action {
   				$img = 	$info[0]['savepath'].$info[0]['savename'];
 			}
 			$data['title'] = $_POST['title'];
-			$data['content'] = $_POST['content'];
+			$data['content'] = $_POST['content1'];
 			if($nid){
 				$News->where("id=$nid")->save($data);
 				JS::Alert('修改成功');
 			}else{
 				$data['time'] = time();
 				$data['type'] = $t;
-				$data['uid'] = $login[0];
+				$data['uid'] = $user[0];
 				$News->data($data)->add();
 				JS::Alert('添加成功');
 			}
@@ -280,41 +291,44 @@ class UserAction extends Action {
 		$CKEditor->config['width'] = 600;
 		$CKEditor->textareaAttributes = array("cols" => 80, "rows" => 10);
 		CKFinder::SetupCKEditor( $CKEditor,__ROOT__.'/Lib/Common/plugins/ckfinder/') ;
-		$code = $CKEditor->editor("content", $ninfo['content']);
+		$code = $CKEditor->editor("content1", $ninfo['content']);
 		
 		$this->code = $code;
 		$this->t = $t;
 		$this->nid = $nid;
 		$this->info = $ninfo;
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
+
 	}
 	public function memberlist(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 3;//栏目ID
 		$user = get_cookie();
 		if(!$user[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
-		
+		$this->user = $user;
 		$Member = M('Member');
         import("ORG.Util.Page");
 		$count = $Member->count();
     	$Page = new Page($count,25);
-    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     	$show = $Page->show();
     	$list = $Member->limit($Page->firstRow.','.$Page->listRows)->select();
 		$this->list = $list;
 		$this->page = $show;
-        
-		import('head','Tpl','.html');
+      
      	$this->display();
-     	import('foot','Tpl','.html');
 	}
 	public function cost(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 3;//栏目ID
 		$user = get_cookie();
 		if(!$user[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		if($_POST){
 			$memberid = $_POST['member'];
 			$tel = $_POST['tel'];
@@ -356,18 +370,26 @@ class UserAction extends Action {
 				$M_jf_logs->add($data);
 				
 				JS::Alert('提交成功！');
+				JS::_Goto(__ROOT__."/index.php/User/cost");
 				}else{
 					JS::Alert('会员卡号或手机号不存在！');
+					JS::_Goto(__ROOT__."/index.php/User/cost");
 				}
 			 
 			
 		}
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
+  
 	}
 	public function costlogs(){
-		
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 3;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
+		}
+		$this->user = $user;
 		$Model = new Model();
 		import("ORG.Util.Page");
 		$mid = intval($_GET['mid']);
@@ -375,14 +397,14 @@ class UserAction extends Action {
 				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid and m.id=$mid ");
 				$count = $count[0]['num'];
     			$Page = new Page($count,25);
-    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     			$show = $Page->show();
 				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.id=$mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}else{
 				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid ");
 				$count = $count[0]['num'];
     			$Page = new Page($count,25);
-    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     			$show = $Page->show();
 				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}
@@ -393,7 +415,7 @@ class UserAction extends Action {
 				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid and m.card='$card'");
 				$count = $count[0]['num'];
     			$Page = new Page($count,25);
-    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     			$show = $Page->show();
 				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.card='$card' order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}
@@ -401,18 +423,24 @@ class UserAction extends Action {
 				$count = $Model->query("select count(*) num from wx_member m , wx_m_cost c where m.id=c.mid and m.tel='$tel'");
 				$count = $count[0]['num'];
     			$Page = new Page($count,25);
-    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    			$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     			$show = $Page->show();
 				$list = $Model->query("select m.card card, m.name name ,m.tel tel ,c.id id ,c.money money,c.time time from wx_member m , wx_m_cost c where m.id=c.mid and m.tel='$tel' order by time DESC limit {$Page->firstRow},{$Page->listRows}");
 			}
 		}
 		$this->page = $show;
 		$this->list = $list;
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
 	}
 	public function jflogs(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 3;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
+		}
+		$this->user = $user;
 		$mid = intval($_GET['mid']);
 		$Model = new Model();
 		import("ORG.Util.Page");
@@ -422,7 +450,7 @@ class UserAction extends Action {
 			$count = $Model->query("select count(*) num from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id=$mid ");
 			$count = $count[0]['num'];
     		$Page = new Page($count,25);
-    		$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    		$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     		$show = $Page->show();
 			$list = $Model->query("select m.card card, m.name name ,m.tel tel ,j.id id ,j.num num,j.time time,j.type type from wx_member m , wx_m_jf_logs j where m.id=j.mid and m.id=$mid order by time DESC limit {$Page->firstRow},{$Page->listRows}");	
 		}
@@ -432,15 +460,18 @@ class UserAction extends Action {
 		$this->types = $types;
 		$this->list = $list;
 		$this->page = $show;
-		import('head','Tpl','.html');
+	
      	$this->display();
-     	import('foot','Tpl','.html');
+ 
 	}
 	public function goodsedit(){
-		$login = get_cookie();
-		if(!$login[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 4;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		$id = intval($_GET['id']);
 		$Jf_goods = M('Jf_goods');
 		if($id){
@@ -512,11 +543,14 @@ class UserAction extends Action {
      	import('foot','Tpl','.html');
 	}
 	public function goods(){
-		$login = get_cookie();
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 4;//栏目ID
+		$user = get_cookie();
 		$Jf_goods = M('Jf_goods');
-		if(!$login[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		$id = intval($_GET['id']);
 		if($id){
 			$info = $Jf_goods->where("id=$id")->find();
@@ -529,15 +563,18 @@ class UserAction extends Action {
 		$list = $Jf_goods->select();
 		
 		$this->list = $list;
-		import('head','Tpl','.html');
+	
      	$this->display();
-     	import('foot','Tpl','.html');
+
 	}
 	public function dhlogs(){
-		$login = get_cookie();
-		if(!$login[0]){
-			JS::Exitframeset(__ROOT__."/index.php/Index/login");
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 4;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
 		$id = intval($_GET['id']);
 		if($id){
 			$M_dh_logs = M('M_dh_logs');
@@ -579,23 +616,22 @@ class UserAction extends Action {
 		$count = $Model->query("select count(*) num from wx_member m,wx_m_dh_logs l where m.id=l.mid $sql ");
 		$count = $count[0]['num'];
     	$Page = new Page($count,25);
-    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% 共%totalRow% %header% %nowPage%/%totalPage% 页');
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
     	$show = $Page->show();
 		$list = $Model->query("select m.card card,m.tel tel,l.gname gname,l.gtime gtime,l.id id,l.ctime ctime from wx_member m,wx_m_dh_logs l where m.id=l.mid $sql order by l.ctime DESC limit {$Page->firstRow},{$Page->listRows}");
 		$this->page = $show;
 		$this->list = $list;
-		import('head','Tpl','.html');
      	$this->display();
-     	import('foot','Tpl','.html');
+
 	}
 	public function actedit(){
-		import('head','Tpl','.html');
+
      	$this->display();
-     	import('foot','Tpl','.html');
+ 
 	}
 	public function ggk(){
-		import('head','Tpl','.html');
+		
      	$this->display();
-     	import('foot','Tpl','.html');
+     	
 	}
 }

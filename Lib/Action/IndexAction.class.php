@@ -1,10 +1,12 @@
 <?php
 class IndexAction extends Action {
     public function index(){
-       	$login = get_cookie();
-		if(!$login[0]){
+    	
+       	$user = get_cookie();
+		if(!$user[0]){
 			JS::_Goto(__ROOT__."/index.php/Index/login");
 		}
+		$this->user = $user;
      	$this->display();
     }
     public function test(){
@@ -26,13 +28,11 @@ class IndexAction extends Action {
      	import('foot','Tpl','.html');
     }
     public function head(){
-    	$login = get_cookie();
-		$this->login = $login;
+
      	$this->display();
     }
 	public function foot(){
-		$login = get_cookie();
-		$this->login = $login;
+		
      	$this->display();
     }
     public function top(){
