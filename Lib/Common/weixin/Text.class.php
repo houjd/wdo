@@ -33,7 +33,7 @@ class Text
     			$return = $this->gongqi();
     			break;
     		case 6:
-    			$return = $this->shouhou();
+    			$return = $this->ggk();
     			break;
     		case 7:
     			$return = $this->member();
@@ -48,8 +48,9 @@ class Text
 3.联系咨询
 4.查看图纸
 5.查看工期进度，安排
-6.售后服务
-7.我的会员卡";
+6.刮刮卡
+7.我的会员卡
+";
     	}
     	return $return;
 		}
@@ -208,6 +209,33 @@ class Text
 			
     		return $return;
 		}
+	private function ggk(){
+		$Member = M('Member');
+        	$info = $Member->where("wxid='{$this->username}'")->find();
+        	if(!$info){
+        		$data['card'] = intval($Member->order("id DESC")->getField('card'))+1;
+        		if($data['card'] < 10){
+        			$data['card'] = 102001;
+        		}
+        		$data['wxid'] = $weixin->msg['FromUserName'];
+        		$data['time'] = time();
+        		$Member->add($data);
+        	}
+        	$Acts = M('Acts');
+        	$act = $Acts->where("type=1")->order('s_time DESC')->find();
+        	
+        	$return = array();
+    		$return['type'] = 'news';
+    		$item['title'] = $act['name'];
+			$item['description'] = $act['info'];
+    		$item['picurl'] = T_URL.__ROOT__.'/Public/wximg/huiyuan1.png';
+    		$item['url'] = T_URL.__ROOT__.'/index.php/Cg/ggk/uid/'.$this->username;
+    		$newsData['items'][] = $item;
+    		$return['content'] = $newsData;
+			
+    		return $return;
+	}
+		
 
 }
 
