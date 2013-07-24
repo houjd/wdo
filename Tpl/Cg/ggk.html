@@ -1,0 +1,170 @@
+<html>
+	<head>
+		<title>刮刮卡</title>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="__ROOT__/Public/css/wx.css">
+	</head>
+
+	<body>
+	<script type="text/javascript" src="__ROOT__/Public/ht/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+
+$('document').ready(function(){
+	
+	var backimage = { 'url':'__ROOT__/Public/wximg/{$award}', 'img': null };
+	var canvas = {'temp': null, 'draw': null}; 
+	var mouseDown = false;	
+	
+	// canvas ϳ	
+	function recompositeCanvases() {
+	
+		var main = document.getElementById('main');
+		var tempctx = canvas.temp.getContext('2d');
+		var mainctx = main.getContext('2d');
+		
+		// clear the temp
+		canvas.temp.width = canvas.temp.width;
+		
+		//  canvas.draw ǵ drawImage 
+		tempctx.drawImage(canvas.draw, 0, 0);
+		
+		//  source-atop ķʽ backimage  tempctx 
+		tempctx.globalCompositeOperation = 'source-atop';
+		tempctx.drawImage(backimage.img, 0, 0);
+		
+		// mainctx => ɫǰ (ûйεĵط)
+		mainctx.fillStyle = "#888";
+		mainctx.fillRect(0, 0, backimage.img.width, backimage.img.height);
+		
+		//  canvas.temp ǵ mainctx 
+		mainctx.drawImage(canvas.temp, 0, 0);
+	}
+	
+	// 
+	function scratch(canv, x, y, fresh) {
+		
+		var ctx = canv.getContext('2d');		
+		// ʴС״...
+		ctx.lineWidth = 20;
+		ctx.lineCap = ctx.lineJoin = 'round';
+		
+		if (fresh) {
+			ctx.beginPath();
+			// Ϊģ⻬ x  0.01Ȼһ²Ӧ
+			ctx.moveTo(x+0.01, y);
+		}
+		ctx.lineTo(x, y);
+		ctx.stroke();
+	}
+
+	function setupCanvases() {
+		var c = document.getElementById('main');
+		
+		// ȡͼƬ
+		c.width = backimage.img.width;
+		c.height = backimage.img.height;
+
+		canvas.temp = document.createElement('canvas');
+		canvas.draw = document.createElement('canvas');
+		
+		canvas.temp.width = canvas.draw.width = c.width;
+		canvas.temp.height = canvas.draw.height = c.height;
+
+		recompositeCanvases();
+	 
+		function mousedown_handler(e) {
+			var local = getLocalCoords(c, e);
+			mouseDown = true;
+
+			scratch(canvas.draw, local.x, local.y, true);
+			recompositeCanvases();
+
+			if (e.cancelable) { e.preventDefault(); } 
+			return false;
+		};
+	 
+		function mousemove_handler(e) {
+			if (!mouseDown) { return true; }
+
+			var local = getLocalCoords(c, e);
+
+			scratch(canvas.draw, local.x, local.y, false);
+			recompositeCanvases();
+
+			if (e.cancelable) { e.preventDefault(); } 
+			return false;
+		};
+
+		function mouseup_handler(e) {
+			if (mouseDown) {
+				mouseDown = false;
+				if (e.cancelable) { e.preventDefault(); } 
+				return false;
+			}
+
+			return true;
+		};
+
+		// mouse handlers
+		c.addEventListener('mousedown', mousedown_handler, false);
+		c.addEventListener('touchstart', mousedown_handler, false);
+
+		window.addEventListener('mousemove', mousemove_handler, false);
+		window.addEventListener('touchmove', mousemove_handler, false);
+
+		window.addEventListener('mouseup', mouseup_handler, false);
+		window.addEventListener('touchend', mouseup_handler, false);
+	}
+
+	// ȡ
+	function getLocalCoords(elem, ev) {
+		var ox = 0, oy = 0;
+		var first;
+		var pageX, pageY;
+	 
+		while (elem != null) {
+			ox += elem.offsetLeft;
+			oy += elem.offsetTop;
+			elem = elem.offsetParent;
+		}
+
+		if (ev.hasOwnProperty('changedTouches')) {
+			first = ev.changedTouches[0];
+			pageX = first.pageX;
+			pageY = first.pageY;
+		} else {
+			pageX = ev.pageX;
+			pageY = ev.pageY;
+		}
+
+		return { 'x': pageX - ox, 'y': pageY - oy };
+	}
+
+	// ̬һ img 
+	backimage.img = document.createElement('img'); 
+	backimage.img.addEventListener('load', setupCanvases, false);
+	backimage.img.src = backimage.url;
+
+	// reset
+	$('#resetbutton').bind('click', function() {
+		canvas.draw.width = canvas.draw.width;
+		recompositeCanvases();
+		return false;
+	});	
+	
+});
+</script>
+	
+		<div id="pageList">
+			<div class="page">
+			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/member/uid/{$uid}'>我的会员卡</a><br>
+			<center><canvas id="main"></canvas></center><br>
+			<span style="color:red">{$str}</span><br>
+			
+			<a href='__URL__/jflogs/uid/{$uid}'>我的中奖记录</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/costlogs/uid/{$uid}'>我的消费记录</a><br>
+			</div>
+		</div>
+	</body>
+
+</html>

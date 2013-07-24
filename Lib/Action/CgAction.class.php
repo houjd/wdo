@@ -203,6 +203,71 @@ class CgAction extends Action {
     	$this->display();
     	
     }
+    public function ggk(){
+   	 	$uid = $_GET['uid'];
+    	$this->uid = $uid;
+    	$Member = M('Member');
+        $minfo = $Member->where("wxid='$uid'")->find();
+        
+        
+        $Acts = M('Acts');
+        $act = $Acts->where("type=1")->order('s_time DESC')->find();
+        $now = time();
+        $arr = array(0=>'0dj.png',1=>'1dj.png',2=>'2dj.png',3=>'3dj.png');
+        if($act['s_time']>$now){
+        	$str = '暂未开始';
+        	$awardid = 0;
+        }elseif($act['e_time']<$now){
+        	$str = '已结束';
+        	$awardid = 0;
+        }else{
+        	$Acts_logs = M('Acts_logs');
+        	if($act['isd']){
+        		$day = strtotime(date('Ymd',time()));
+        		$dayinfo = $Acts_logs->where("aid={$act['id']} and mid={$minfo['id']} and time>$day")->find();
+        	}else{
+        		$dayinfo = $Acts_logs->where("aid={$act['id']} and mid={$minfo['id']}")->find();
+        		if($dayinfo){
+        			$dayinfo = 1;
+        		}
+        	}
+        	if(!$dayinfo){
+        		$Model = new Model();
+        		$count = $Model->query("select award,count(id) num from wx_acts_logs where aid={$act['id']} group by award");
+        		$awards = array();
+        		$awards[1] = $act['f_num'];
+        		$awards[2] = $act['s_num'];
+        		$awards[3] = $act['t_num'];
+        		$awards[0] = $act['pnum']-$awards[1]-$awards[2]-$awards[3];
+        		foreach ($count as $v){
+        			$awards[$v['award']] -= $v['num'];
+        		}
+        		if($awards[0]+$awards[1]+$awards[2]+$awards[3]>0){
+        			$awardid = $this->get_rand($awards);
+        		}else{
+        			$awardid = 0;
+        		}
+        	
+        		$data['mid'] = $minfo['id'];
+        		$data['award'] = $awardid;
+        		$data['aid'] = $act['id'];
+        		$data['time'] = time();
+        		$Acts_logs->add($data);
+       	 	}else{
+       	 		if($dayinfo==1){
+       	 			$str="抱歉，你已达到抽奖次数上限！";
+       	 		}else{
+       	 			$str="抱歉，你已达到今日抽奖次数上限！";
+       	 		}
+       	 		
+       	 		$awardid = 0;
+       	 	}
+        }
+        $this->award = $arr[$awardid];
+        $this->str = $str;
+    	$this->display();
+    	
+    }
  	public function tel(){
     	$this->display();
     }
@@ -218,5 +283,26 @@ class CgAction extends Action {
     public function sh(){
     	$this->display();
     }
+    //抽奖
+    function get_rand($proArr) { 
+    $result = ''; 
+ 
+    //概率数组的总概率精度 
+    $proSum = array_sum($proArr); 
+ 
+    //概率数组循环 
+    foreach ($proArr as $key => $proCur) { 
+        $randNum = mt_rand(1, $proSum); 
+        if ($randNum <= $proCur) { 
+            $result = $key; 
+            break; 
+        } else { 
+            $proSum -= $proCur; 
+        } 
+    } 
+    unset ($proArr); 
+ 
+    return $result; 
+} 
 	
 }
