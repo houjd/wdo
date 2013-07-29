@@ -161,8 +161,8 @@ $('document').ready(function(){
 			<a href='#'>首页</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/member/uid/{$uid}'>我的会员卡</a><br>
 			<center><canvas id="main"></canvas></center><br>
 			<span style="color:red">{$str}</span><br>
-			
-			<a href='__URL__/jflogs/uid/{$uid}'>我的中奖记录</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <a href='__URL__/costlogs/uid/{$uid}'>我的消费记录</a><br>
+			<php>if($sn){echo '你的sn码为：'.$sn['sn'];}</php>
+			<a href='__URL__/jflogs/uid/{$uid}'>我的中奖记录</a>  <br>
 			</div>
 		</div>
 	</body>

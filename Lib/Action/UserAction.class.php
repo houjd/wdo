@@ -626,12 +626,202 @@ class UserAction extends Action {
 
 	}
 	public function actedit(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 5;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
+		}
+		$this->user = $user;
+		$t = intval($_GET['t']);
+		if(!$t){
+			$t = 1;
+		}
+		$type = array(1=>'刮刮卡',2=>'翻牌');
+		
+		$id = intval($_GET['id']);
+		$Acts = M('Acts');
+		if($id){
+			$info = $Acts->where("id=$id")->find();
+		}
+		if($_POST  || $_FILES){
+			
+			import('ORG.Net.UploadFile');
+			$upload = new UploadFile();// 实例化上传类
+			$upload->maxSize  = 3145728 ;// 设置附件上传大小
+			$upload->allowExts  = array('jpg', 'png');// 设置附件上传类型
+			$upload->savePath =  'Public/uploads/';// 设置附件上传目录
+			
+			if($id){
+				if(!$upload->upload()) {// 上传错误提示错误信息
+					//$this->error($upload->getErrorMsg());
+				}else{// 上传成功 获取上传文件信息
+					$pinfo =  $upload->getUploadFileInfo();
+					$data['pic'] = $pinfo[0]['savepath'].$pinfo[0]['savename'];
+				if(file_exists($info['pic'])&& !strpos($info['pic'],'wximg')){
+   					unlink($info['pic']);
+  					}
+  				$data['pic'] = 	$pinfo[0]['savepath'].$pinfo[0]['savename'];
+				}
+				$data['title'] = $_POST['title'];
+				$data['info'] = $_POST['info'];
+				$data['innum'] = $_POST['innum'];
+				$data['isd'] = $_POST['isd'];
+				$Acts->where("id=$id")->save($data);
+				JS::Alert('修改成功');
+				}else{
+					if(!$upload->upload()) {// 上传错误提示错误信息
+					//$this->error($upload->getErrorMsg());
+					}else{// 上传成功 获取上传文件信息
+						$info =  $upload->getUploadFileInfo();
+						$data['pic'] = $info[0]['savepath'].$info[0]['savename'];
+					if(file_exists($info['pic'])&& !strpos($info['pic'],'wximg')){
+   						unlink($info['pic']);
+  						}
+  					$data['pic'] = 	$info[0]['savepath'].$info[0]['savename'];
+					}
+					if(!$data['pic']){
+						$data['pic'] = 'Public/wximg/ggk.png';
+					}
+					$data['title'] = $_POST['title'];
+					$data['info'] = $_POST['info'];
+					$data['innum'] = intval($_POST['innum']);
+					$data['isd'] = intval($_POST['isd']);
+					$data['f_info'] = $_POST['f_info'];
+					$data['f_num'] = intval($_POST['f_num']);
+					$data['s_info'] = $_POST['s_info'];
+					$data['s_num'] = intval($_POST['s_num']);
+					$data['t_info'] = $_POST['t_info'];
+					$data['t_num'] = intval($_POST['t_num']);
+					$data['s_time'] = strtotime($_POST['s_time']);
+					$data['e_time'] = strtotime($_POST['e_time']);
+					$data['pnum'] = intval($_POST['pnum']);
+					$data['type'] = $t;
+					$aid = $Acts->add($data);
+					$Acts_sn = M('Acts_sn');
+					for ($i=0;$i<$data['f_num'];$i++){
+						$sn['sn'] = uniqid().rand(10,99);
+						$sn['aid'] = $aid;
+						$sn['type'] = 1;
+						$Acts_sn->add($sn);
+					}
+					for ($i=0;$i<$data['s_num'];$i++){
+						$sn['sn'] = uniqid().rand(10,99);
+						$sn['aid'] = $aid;
+						$sn['type'] = 2;
+						$Acts_sn->add($sn);
+					}
+					for ($i=0;$i<$data['t_num'];$i++){
+						$sn['sn'] = uniqid().rand(10,99);
+						$sn['aid'] = $aid;
+						$sn['type'] = 3;
+						$Acts_sn->add($sn);
+					}
+					JS::Alert('添加成功');
+				}
+				JS::_Goto(__ROOT__."/index.php/User/actlist/t/$t");
+		}
+		require_once 'Lib/Common/plugins/ckeditor/ckeditor.php';
+		require_once 'Lib/Common/plugins/ckfinder/ckfinder.php';
 
+		$CKEditor = new CKEditor();
+		$CKEditor->returnOutput = true;
+		$CKEditor->basePath = __ROOT__.'/Lib/Common/plugins/ckeditor/';
+		$CKEditor->config['width'] = 600;
+		$CKEditor->textareaAttributes = array("cols" => 80, "rows" => 10);
+		CKFinder::SetupCKEditor( $CKEditor,__ROOT__.'/Lib/Common/plugins/ckfinder/') ;
+		$code = $CKEditor->editor("info", $info['info']);
+		
+		$this->code = $code;
+		
+		$this->id = $id;
+		$this->info = $info;
+		$this->name = $type[$t];
+		$this->t = $t;
      	$this->display();
  
 	}
-	public function ggk(){
+	public function actlist(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 5;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
+		}
+		$this->user = $user;
+		$t = intval($_GET['t']);
+		if(!$t){
+			$t = 1;
+		}
+		$type = array(1=>'刮刮卡',2=>'翻牌');
+		$Acts = M('Acts');
+		$act = $_GET['act'];
+		$id = $_GET['id'];
 		
+		if( $act=='del' && $id){
+			$info = $Acts->where("id=$id")->find();
+			if(file_exists($info['pic']) && !strpos($info['pic'],'wximg')){
+   					unlink($info['pic']);
+  					}
+			$Acts->where('id='.$id)->delete();
+		}
+		
+		
+		import("ORG.Util.Page");
+		$count = $Acts->where("type=$t")->count();
+    	$Page = new Page($count,25);
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
+    	$show = $Page->show();
+		$list = $Acts->where("type=$t")->order("id DESC")->limit($Page->firstRow.','.$Page->listRows)->select();
+		
+		if($Acts->where("e_time>".time())->find()){
+			$this->isnew = 1;
+		}else{
+			$this->isnew = 0;
+		}
+		$this->page = $show;
+		$this->list = $list;
+		$this->name = $type[$t];
+		$this->t = $t;
+     	$this->display();
+     	
+	}
+	public function snlist(){
+		header("Content-Type: text/html; charset=utf-8");
+		$this->lid = 5;//栏目ID
+		$user = get_cookie();
+		if(!$user[0]){
+			JS::_Goto(__ROOT__."/index.php/Index/login");
+		}
+		$this->user = $user;
+		$t = intval($_GET['t']);
+		if(!$t){
+			$t = 1;
+		}
+		$type = array(1=>'刮刮卡',2=>'翻牌');
+		$Acts_sn = M('Acts_sn');
+		$aid = $_GET['aid'];
+		$act = $_GET['act'];
+		$id = $_GET['id'];
+		
+		if($id){
+			$data['get_time'] = time();
+			$Acts_sn->where("id=$id")->save($data);
+		}
+		
+		
+		import("ORG.Util.Page");
+		$count = $Acts_sn->where("aid=$aid")->count();
+    	$Page = new Page($count,25);
+    	$Page->setConfig('theme','%first% %upPage% %prePage% %linkPage% %nextPage% %downPage% %end% (共 %totalRow% %header%)');
+    	$show = $Page->show();
+		$list = $Acts_sn->where("aid=$aid")->order("type")->limit($Page->firstRow.','.$Page->listRows)->select();
+		$this->page = $show;
+		$this->list = $list;
+		$this->name = $type[$t];
+		$this->t = $t;
+		$this->aid = $aid;
+		$this->type = array(1=>'一等奖',2=>'二等奖',3=>'三等奖');
      	$this->display();
      	
 	}

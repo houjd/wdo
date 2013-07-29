@@ -253,6 +253,14 @@ class CgAction extends Action {
         		$data['aid'] = $act['id'];
         		$data['time'] = time();
         		$Acts_logs->add($data);
+        		if($awardid){
+        			$Acts_sn = M('Acts_sn');
+        			$sn = $Acts_sn->where("aid={$act['id']} and type=$awardid and mid=0")->find();
+        			if($sn){
+        				$sndata['mid'] = $minfo['card'];
+        				$Acts_sn->where("id={$sn['id']}")->save($sndata);
+        			}
+        		}
        	 	}else{
        	 		if($dayinfo==1){
        	 			$str="抱歉，你已达到抽奖次数上限！";
@@ -263,6 +271,7 @@ class CgAction extends Action {
        	 		$awardid = 0;
        	 	}
         }
+        $this->sn = $sn;
         $this->award = $arr[$awardid];
         $this->str = $str;
     	$this->display();

@@ -11,7 +11,7 @@
 						<a href="__ROOT__/index.php">首页</a> <span class="divider">/</span>
 					</li>
 					<li>
-						<a href="#">文章管理</a>
+						<a href="#">活动管理</a>
 					</li>
 				</ul>
 			</div>
@@ -19,30 +19,50 @@
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
-						<h2><i class="icon-edit"></i>  编辑文章</h2>
+						<h2><i class="icon-edit"></i>  编辑{$name}</h2>
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal"   action="__URL__/editnew?t={$t}&id={$nid}" method="post" name="form1" id="form1" enctype="multipart/form-data">
+						<form class="form-horizontal"   action="__URL__/actedit/t/{$t}/id/{$id}" method="post" name="form1" id="form1" enctype="multipart/form-data" onsubmit="return validate_form(this)" >
 						  <fieldset>
-							<legend>编辑文章</legend>
+							<legend>编辑{$name}</legend>
 							<div class="control-group">
-							  <label class="control-label" for="typeahead">标题 </label>
+							  <label class="control-label" for="typeahead">活动标题 </label>
 							  <div class="controls">
-								<input type="text" name="title" value="{$info[title]}" />
+								<input type="text" name="title" id="title" value="{$info[title]}" />
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="typeahead">图片预览 </label>
+							  <label class="control-label" for="typeahead">活动图片预览 </label>
 							  <div class="controls">
-								<php>if($info['pic']){</php><img width="320px" src="__ROOT__/{$info['pic']}"/> <php>}</php> 
+								<php>if($info['pic']){</php><img width="320px" src="__ROOT__/{$info['pic']}"/> <php>}else{echo '<img width="320px" src="__ROOT__/Public/wximg/ggk.png"/>';}</php> 
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="fileInput">上传图片</label>
+							  <label class="control-label" for="fileInput">上传活动图片</label>
 							  <div class="controls">
-								<div class="uploader" id="uniform-fileInput"><input class="input-file uniform_on" name="photo" id="photo" type="file" size="19" style="opacity: 0; ">
+								<div class="uploader" id="uniform-fileInput"><input class="input-file uniform_on" name="pic" id="pic" type="file" size="19" style="opacity: 0; ">
 								<span class="action">选择图片</span><span class="help-inline">注：支持JPG、PNG格式，较好的效果大图为640*320，小图为80*80</span></div>
 							  </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">开始时间</label>
+							  <div class="controls">
+							  <php>
+							  if($info){echo '<input name="s_time" size="16"  type="text" value="'.date('Y-m-d H:i',$info['s_time']).'" readonly >';}
+							  else{echo '<input id="s_time" name="s_time" size="16" type="text" value="" readonly>';}
+							  </php>
+    							
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">结束时间</label>
+							  <div class="controls">
+							  <php>
+							  if($info){echo '<input name="e_time" size="16"  type="text" value="'.date('Y-m-d H:i',$info['e_time']).'" readonly >';}
+							  else{echo '<input id="e_time" name="e_time" size="16" type="text" value="" readonly>';}
+							  </php>
+    							
+    							 </div>
 							</div>
 							<div class="control-group">
 							  <label class="control-label" for="typeahead">内容 </label>
@@ -51,7 +71,62 @@
 								
 							  </div>
 							</div>
-							
+							<div class="control-group">
+							<label class="control-label" for="typeahead">一等奖</label>
+							  <div class="controls">
+    							<input name="f_info"  type="text" value="{$info['f_info']}" <php>if($info){echo 'readonly';}</php>>
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">数量</label>
+							  <div class="controls">
+    							<input name="f_num" id="f_num"  size="5" type="text" value="{$info['f_num']}" <php>if($info){echo 'readonly';}</php> >
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">二等奖</label>
+							  <div class="controls">
+    							<input name="s_info"  type="text" value="{$info['s_info']}" <php>if($info){echo 'readonly';}</php> >
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">数量</label>
+							  <div class="controls">
+    							<input name="s_num" id="s_num"  size="5" type="text" value="{$info['s_num']}" <php>if($info){echo 'readonly';}</php> >
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">三等奖</label>
+							  <div class="controls">
+    							<input name="t_info"  type="text" value="{$info['t_info']}" <php>if($info){echo 'readonly';}</php> >
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">数量</label>
+							  <div class="controls">
+    							<input name="t_num" id="t_num"  size="5" type="text" value="{$info['t_num']}" <php>if($info){echo 'readonly';}</php> >
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">显示奖品数量</label>
+							  <div class="controls">
+    							<input type="checkbox" name="innum" value="1" <php>if($info['innum']){echo 'checked';} </php> >
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">能否每天参加</label>
+							  <div class="controls">
+    							<input type="checkbox" name="isd" value="1"  <php>if($info['isd']){echo 'checked';} </php> >
+    							<span>（选中则表示每天能抽奖一次，否则总共只能抽奖一次）</span>
+    							 </div>
+							</div>
+							<div class="control-group">
+							<label class="control-label" for="typeahead">预计参与人数</label>
+							  <div class="controls">
+    							<input name="pnum" id="pnum"  type="text" value="{$info['pnum']}" <php>if($info){echo 'readonly';}</php> >
+    							<span>（中奖概率为奖品数除以预计参与人数；例如预计参与人数为100，抽100次奖一定能把所有奖品抽完）</span>
+    							 </div>
+							</div>
 				
 							<div class="form-actions">
 							  <button type="submit" class="btn btn-primary">提交</button>
@@ -72,6 +147,64 @@
 				</div><!--/fluid-row-->
 				
 		<hr>
+<script type="text/javascript">
+function validate_form(){
+	if($("#title").val()==''){
+		alert('请填写标题！');
+		return false;
+	}
+	if($("#s_time").val()==''){
+		alert('请填写开始时间！');
+		return false;
+	}
+	if($("#e_time").val()==''){
+		alert('请填写结束时间！');
+		return false;
+	}
+	if($("#e_time").val() <= $("#s_time").val()){
+		alert('结束时间必须大于开始时间！');
+		return false;
+	}
+	if($("#pnum").val()==''){
+		alert('请填写预计参与人数！');
+		return false;
+	}
+	if(isNaN($("#f_num").val()) || isNaN($("#s_num").val()) || isNaN($("#t_num").val())){
+		alert('奖品数量必须为数字！');
+		return false;
+	}
+	if($("#f_num").val()!=''){
+		var f_num = parseInt($("#f_num").val());
+	}else{
+		var f_num = 0;
+	}
+	if($("#s_num").val()!=''){
+		var s_num = parseInt($("#s_num").val());
+	}else{
+		var s_num = 0;
+	}
+	if($("#t_num").val()!=''){
+		var t_num = parseInt($("#t_num").val());
+	}else{
+		var t_num = 0;
+	}
+	if((f_num+s_num+t_num)>parseInt($("#pnum").val())){
+		
+		alert('预计参与人数必须大于奖品数量！');
+		return false;
+	}
+	return true;
+}
+$(document).ready(function(){
+    $("#s_time,#e_time").datetimepicker({
+    	language:  'zh-CN',
+        format: "yyyy-mm-dd hh:ii",
+        showMeridian: true,
+        autoclose: true,
+        todayBtn: true
+    });
+});
+</script>    
 
 <include file="Index:foot" />
 
